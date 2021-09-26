@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="site.css">
+    <script src="vue.js"></script>
+    <script src="jquery.min.js"></script>
+  </head>
+  <body>
+  <div id="app" >
+    <div class="wrapper"> 
+        <div class="input-data"><input class="text-box" type="text" required ><div class="underline"></div> <label >Name</label></div>
+        <div class="input-data"><input class="text-box" type="text" required ><div class="underline"></div> <label >SID</label></div>
+        <div class="input-data"><input class="text-box" type="text" required ><div class="underline"></div> <label >Class</label></div>
+        <div id="btn-box"><a id="add-btn" class="button btn-index" href="">添加</a><a id="add-btn" class="button btn-index" href="rollcall.html">点名</a></div>
+    </div>
+    <div class="data-table">
+        <select id="selection1" name="public-choice" v-model="classSelected" @change="getClassSelected">                                        
+          <option :value="c.id" v-for="c in classList" >{{c.name}}</option>                                 
+        </select>
+        <table >
+          <thead>
+						<tr>
+              <th id="index">行号</th>
+							<template v-for="headitem in head">
+								<th>{{headitem}}</th>
+							</template>
+						</tr>
+					</thead>
+          <tbody>
+						<template v-for="row in rows ">
+							<tr>
+                <td>{{rows.indexOf(row)+1}}</td>
+								<td>{{row.name}}</td>
+								<td>{{row.SID}}</td>
+								<td>{{row.sex}}</td>
+							</tr>
+						</template>
+        </table>
+    </div>
+  </div>
+  </body>
+  <script>
+    var data = {
+    	  head: ["姓名", "学号", "性别"],
+    	  rows: [],
+        classList:[
+            {
+                id:9,
+                name:'9班'
+            },
+            {
+                id:10,
+                name:'10班'
+            }
+        ],
+        classSelected:'',
+    };
+    //ViewModel
+	var vue = new Vue({
+		el: '#app',
+		data: data,
+    mounted() {
+                    // 这里一定要使用常量 const来引用this，不然可能会出现this指向问题
+					const that = this
+                    // 使用getjson读取数据
+					$.getJSON("students9.json", function(data) {
+               			// 将读取到的json数据赋值给rows
+						that.rows = data;
+					});
+				},
+    created(){
+　　　　　//如果没有这句代码，select中初始化会是空白的，默认选中就无法实现
+        this.classSelected = this.classList[0].id;
+    },
+		methods: {   
+      getClassSelected(){
+                        //获取选中的优惠券
+                console.log(this.classSelected)
+                if(this.classSelected == 9){
+                    $.getJSON("students9.json", function(d) {
+       			        // 将读取到的json数据赋值给rows
+				              data.rows = d;
+			              });
+                }
+                else if(this.classSelected == 10){
+                    $.getJSON("students10.json", function(d) {
+       			        // 将读取到的json数据赋值给rows
+				              data.rows = d;
+			            });
+                }
+            },
+		}
+	});
+</script>
+</html>

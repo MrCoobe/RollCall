@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RollCall</title>
+    <script src="vue.js"></script>
+    <script src="jquery.min.js"></script>
+    <link rel="stylesheet" href="site.css">
+</head>
+<body>
+<div class="content">
+    <div id="app1">
+        <div id="roll-content">
+            <select id="selection2" name="public-choice" v-model="classSelected" @change="getClassSelected">                                        
+                <option :value="c.id" v-for="c in classList" >{{c.name}}</option>                                    
+            </select>
+            <template v-if="isStart">
+                <!-- 显示滚动的名单 -->
+                <h2>
+                    Lucky Boy Or Girl<br/>--{{selectedS.name}}--{{selectedS.SID}}
+                </h2>
+                <!-- 结束按钮 -->
+            </template>
+            <h1 v-if="!isStart & isEnd">
+             Lucky Boy Or Girl<br/>{{luckyBoyOrGirl.name}}{{luckyBoyOrGirl.SID}}
+            </h1>
+        </div>
+        <div id="btn-box">
+            <a class="button btn-index" href="index.html" >返回</a>
+            <a class="button btn-index" v-on:click="startRandom">开始点名</a>
+        </div>
+        
+    </div>
+</div>
+</body>
+<script>
+    var data = {
+        isStart :false,
+        isEnd: false,
+        num:null,
+        timer: null,
+        timers: 0,
+        selectedS: null,
+    	head: ["行号","姓名", "学号", "性别"],
+    	rows: [],
+        luckyBoyOrGirl:null,
+    	rowtemplate: {
+    		name: '',
+    		SID: '',
+    		sex: '',
+    	},
+        classList:[
+            {
+                id:9,
+                name:'9班'
+            },
+            {
+                id:10,
+                name:'10班'
+            }
+        ],
+        classSelected:'',
+    };
+    $.getJSON("students9.json", function(d) {
+       			        // 将读取到的json数据赋值给rows
+				        data.rows = d;
+                        data.selectedS=data.rowtemplate
+                        data.luckyBoyOrGirl=data.rowtemplate
+			            });
+    //ViewModel
+	var vue = new Vue({
+		el: '#app1',
+		data: data,
+        created(){
+　　　　　　　　　　　//如果没有这句代码，select中初始化会是空白的，默认选中就无法实现
+                    this.classSelected = this.classList[0].id;
+                },
+		methods: {
+            startRandom() {
+                this.num = 0;
+                this.timers = 0;
+                this.isStart = true;
+                this.isEnd = false;
+                // 清除定时器
+                clearInterval(this.timer)
+                // 开启定时器
+                this.autoScroll()
+            },
+            autoScroll() {
+                this.timer = setInterval(this.timeHandler, 100);
+            },
+            timeHandler(){
+                if (this.timers<30 & this.rows.length>0){
+                    let length = this.rows.length
+                    this.num = Math.floor(Math.random() * length)
+                    this.selectedS = this.rows[this.num]
+                    this.timers = this.timers+1
+                }
+                else if(this.timers >= 30 &this.rows.length>0){
+                    this.rows.splice(this.num,1)
+                    clearInterval(this.timer)
+                    this.endRandom();
+                }
+                else{
+                    this.endRandom();
+                }
+            },
+            endRandom(){
+                this.isStart = false;
+                this.isEnd = true;
+                this.luckyBoyOrGirl=this.selectedS;
+            },
+            getClassSelected(){
+                        //获取选中的优惠券
+                console.log(this.classSelected)
+                if(this.classSelected == 9){
+                    $.getJSON("students9.json", function(d) {
+       			        // 将读取到的json数据赋值给rows
+				        data.rows = d;
+                        data.selectedS=data.rowtemplate;
+                        data.luckyBoyOrGirl=data.rowtemplate;
+			            });
+                }
+                else if(this.classSelected == 10){
+                    $.getJSON("students10.json", function(d) {
+       			        // 将读取到的json数据赋值给rows
+				        data.rows = d;
+                        data.selectedS=data.rowtemplate;
+                        data.luckyBoyOrGirl=data.rowtemplate;
+			            });
+                }
+            },
+		}
+	});
+</script>
+</html>

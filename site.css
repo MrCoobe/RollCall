@@ -1,0 +1,148 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    text-decoration: none;
+}
+#btn-box{
+    position:absolute;
+    bottom: 20px;
+    left: 50%;
+    margin-left: -200px;
+}
+.btn-index{
+    float: left;
+    margin: 0px 50px;
+}
+.button{
+    display: block;
+    width: 100px;
+    height: auto;
+    padding: 10px;
+    background-color: #D18EB9;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 1.2em;
+    text-align: center;
+    cursor:pointer;
+}
+
+.wrapper{
+    position: relative;
+    min-width: 600px;
+    height: 90px;
+    background: #fff;
+    margin: 10px;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+}
+.wrapper .input-data{
+    position: relative;
+    float: left;
+    width: 30%;
+    margin-right: 20px;
+    margin-bottom: 30px;
+}
+.button ::after{
+    clear: both;
+    content: "";
+}
+.text-box{
+    width: 100%;
+    height: 30px;
+    outline: none;
+    border: none;
+    border-bottom: 2px solid rgb(117, 117, 117);
+    font-size: 17px;
+}
+.wrapper .input-data label{
+    position: absolute;
+    left: 0px;
+    bottom: 10px;
+    pointer-events: none;
+    color: rgb(187, 187, 187);
+    transition: all 0.3s ease;
+}
+
+.text-box:focus ~ label,
+.text-box:valid ~ label{
+    font-size: 15px;
+    transform: translateY(-20px);
+}
+.wrapper .input-data .underline{
+    position: absolute;
+    bottom: 0px;
+    height: 2px;
+    width: 100%;
+}
+
+.wrapper .input-data .underline:before{
+    position: absolute;
+    content: "";
+    height: 100%;
+    width: 100%;
+    background: #D46993;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+.text-box:focus ~ .underline:before,
+.text-box:valid ~ .underline:before{
+    transform: scaleX(1);
+}
+.data-table{
+    text-align: center;
+    width: auto;
+    min-width: 600px;
+    background: #fff;
+    margin: 10px;
+    padding-top: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+}
+.data-table table{
+    width: 100%;
+}
+.data-table th{
+    width: 30%;
+}
+.data-table #index{
+    width: 10%;
+}
+.data-table tr{
+    border-bottom: 1px solid rgb(255, 82, 30);
+    text-align: center;
+}
+.content{
+    position: relative;
+    min-width: 600px;
+    height: 500px;
+    background: #fff;
+    margin: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+}
+#roll-content{
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 20%;
+    margin-top: -40px;
+}
+#selection1{
+    margin:10px;
+    margin-bottom: 30px;
+    width: 100px;
+    height: 36px;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+#selection2{
+    margin:10px;
+    margin-bottom: 10%;
+    width: 100px;
+    height: 36px;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
